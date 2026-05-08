@@ -7,7 +7,14 @@ cd "$(dirname $0)/../$PROJECTS_BASE_PATH"
 # Iterate over subfolders in Projects and look for a build file `leanweb-build.sh`
 for folder in "."/*; do
   if [ -d "$folder" ]; then
+    config_file="$folder/leanweb-config.json"
     build_script="$folder/leanweb-build.sh"
+
+    if [ -f "$config_file" ] && node -e "process.exit(require(process.argv[1]).hidden === true ? 0 : 1)" "$config_file"; then
+      echo "Skipping $folder: project is hidden"
+      continue
+    fi
+
     if [ -f "$build_script" ]; then
       SECONDS=0
       echo "Start building $folder"
