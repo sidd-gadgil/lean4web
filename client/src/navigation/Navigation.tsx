@@ -29,7 +29,7 @@ import ToolsPopup from '../Popups/Tools'
 import { mobileAtom } from '../settings/settings-atoms'
 import { SettingsPopup } from '../settings/SettingsPopup'
 import { setImportUrlAndProjectAtom } from '../store/import-atoms'
-import { currentProjectAtom, projectsAtom, visibleProjectsAtom } from '../store/project-atoms'
+import { currentProjectAtom, visibleProjectsAtom } from '../store/project-atoms'
 import { save } from '../utils/SaveToFile'
 import { Dropdown } from './Dropdown'
 import { NavButton } from './NavButton'
@@ -57,7 +57,7 @@ function FlexibleMenu({
   setLoadZulipOpen: Dispatch<SetStateAction<boolean>>
 }) {
   const [, setImportUrlAndProject] = useAtom(setImportUrlAndProjectAtom)
-  const [{ data: projects }] = useAtom(projectsAtom)
+  const [projects] = useAtom(visibleProjectsAtom)
   const loadFileFromDisk = (event: ChangeEvent<HTMLInputElement>) => {
     console.debug('Loading file from disk')
     const fileToLoad = event.target.files![0]

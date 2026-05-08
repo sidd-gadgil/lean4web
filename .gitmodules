@@ -1,0 +1,3 @@
+[submodule "Projects/LeanLangur"]
+	path = Projects/LeanLangur
+	url = https://github.com/siddhartha-gadgil/LeanLangur

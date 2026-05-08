@@ -1,7 +1,7 @@
 {
   "name": "Latest Mathlib",
-  "default": true,
-  "hidden": false,
+  "default": false,
+  "hidden": true,
   "examples": [
     { "file": "MathlibDemo/Bijection.lean", "name": "Bijection" },
     { "file": "MathlibDemo/Logic.lean", "name": "Logic" },

@@ -1,12 +1,12 @@
 describe("The Editor", () => {
   it("displays the version selection", () => {
     cy.visit("/");
-    cy.get("nav>*>select[name='leanVersion']").select("MathlibDemo");
-    cy.iframe().contains("MathlibDemo.lean").should("exist");
+    cy.get("nav>*>select[name='leanVersion']").select("LeanLangur");
+    cy.iframe().contains("LeanLangur.lean").should("exist");
     cy.get(".dropdown>.nav-link>.fa-bars").click();
     cy.contains(".nav-link", "Lean Info").click();
     cy.containsAll(".modal", [
-      "MathlibDemo",
+      "LeanLangur",
       "leanprover/lean4",
       "mathlib",
       "aesop",
@@ -49,20 +49,20 @@ describe("The Editor", () => {
     cy.visit("/");
     cy.get(".dropdown>.nav-link>.fa-bars").click();
     cy.contains(".dropdown .dropdown", "Examples").click();
-    cy.contains(".nav-link", "Logic").click();
+    cy.contains(".nav-link", "Basic").click();
     cy.containsAll([
-      "import Mathlib.Logic.Basic",
-      "variable (P Q : Prop)",
+      "#eval 1 + 2",
+      "def hello := \"world\"",
     ]).should("exist");
   });
 
   it("loads example correctly on desktop", () => {
     cy.visit("/");
     cy.contains(".nav-link", "Examples").click();
-    cy.contains(".nav-link", "Logic").click();
+    cy.contains(".nav-link", "Basic").click();
     cy.containsAll([
-      "import Mathlib.Logic.Basic",
-      "variable (P Q : Prop)",
+      "#eval 1 + 2",
+      "def hello := \"world\"",
     ]).should("exist");
   });
 
