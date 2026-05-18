@@ -1,0 +1,314 @@
+Timestamp,Hackathon Team Name,"Team Members (Full Name and Email for each, separated by comma/newline)",Public GitHub Repository URL (Link to your Lean project),Project Category Focus (Select all that apply),Project Title,Project Description,How complete is the project relative to your objectives?,How do you expect you or others to build on this in the future?
+5/1/2026 14:52:14,AGENL — Agent Definition Language,Shanthini Kamaraj (shansastro@gmail.com),https://github.com/ShanthiniShans/agenl,"Formal Verification of Autonomy Systems, Development of Verified Libraries/Tactics for a Domain",AGENL — Agent Definition Language: Lean 4 Verified  Governance for Multi-Agent AI Systems,"AGENL is a domain-specific language for defining AI agent contracts with Lean 4 mathematical verification. You define what an agent cannot do — and Lean proves it is mathematically impossible.
+
+Core Lean 4 Modules (all verified):
+1. InfoFlow.lean — DataLabel taint tracking, canFlowTo predicate, secret_cannot_flow_to_public theorem
+2. Effects.lean — AgentProgram Free Monad over ToolEffect, SafeProg inductive safety proof
+3. Liveness.lean — Existence proofs that governed agents can still complete tasks
+4. Memory.lean — Formal memory model with LabelledData, public_filter_no_secret theorem
+5. ValidAgent.lean — ValidAgent typeclass (no_overlap, allow_nonempty, trust_bounded) and ValidPipeline typeclass
+
+ORBITAL — 12-Agent Space Mission Pipeline:
+1. Three layers: Program Management, Space Domain, Intelligence and Synthesis
+2. All 12 agents mathematically proven safe with individual Lean proof files
+3. Key theorem: launch_approval_blocked — LaunchWindowAnalyser cannot approve a launch, not by policy, by theorem
+4. Key theorem: risk_no_secret_to_public — Secret data cannot produce Public output
+5. Key theorem: orbital_pipeline_valid — all 12 agents satisfy ValidAgent, composition proven
+6. Feedback arrow: SubsystemRelationships to ScheduleAnalyser, label Internal, terminate_after_one_pass
+
+Python Runtime Layer:
+1. AGENLWrapper — wraps any existing LangChain or AutoGen agent in one line of code
+2. Flask REST API with 9 endpoints covering health, validate, run, agents, proofs, and registry
+3. Two interactive dashboards — ORBITAL mission app and AGENL verification tool
+4. GitHub Actions CI pipeline — green on every push
+
+Build status: lake build · exit code 0 · 3310 jobs · 38 theorems verified · zero errors","Completed:
+1. All 5 Lean 4 modules verified and building cleanly
+2. All 38 theorems proven by Lean's mathematical kernel
+3. All 12 ORBITAL agents have individual proof files
+4. ValidAgent and ValidPipeline typeclasses
+5. Feedback arrow with terminate_after_one_pass modelled and proven
+6. AGENLWrapper plugin layer — governs any existing agent framework without rebuild
+7. Flask REST API with 9 endpoints — live and tested
+8. Agent registry with publish, search, and pull functionality
+9. LangChain and AutoGen examples — both runnable
+10. 4 passing pytest tests with green CI on every push
+11. Two dashboards — ORBITAL mission app and AGENL verification tool
+
+Intentionally deferred to future phases:
+1. safeRun bridge — connects Lean proofs to live agent execution (Phase 7)
+2. Automatic proof synthesis from .agenl files via synthInstance metaprogramming (Phase 7)
+3. Slack and email escalation routing (Phase 8)
+4. Vector store integration for long-term agent memory (Phase 8)
+5. DO-178C aerospace certification tooling (Phase 8)","1. safeRun bridge — connect Lean proofs to live agent execution so only mathematically proven programs can run.
+
+2. Automatic proof synthesis — a compiler from .agenl contract files to Lean proof instances, eliminating manual proof writing for standard contracts. 
+
+3. Research paper — the DSL design, ValidAgent typeclass architecture, and information flow model are a genuine contribution to the Lean and AI agents intersection. 
+
+4. Community extensions — others can extend ValidAgent for new domains or build domain-specific agent packs on top of the verified core library. 
+
+5. Enterprise integrations — DO-178C aerospace certification tooling, human escalation routing, and vector store integration for long-term memory. 
+
+6. Aggregation into the EmergenceAI common system — the clean Lean 4 package structure and MIT license are ready for this."
+5/1/2026 22:39:50,LeanACL,"Aman Neelappa, aman313@gmail.com",https://github.com/aman313/LeanACL,Development of Verified Libraries/Tactics for a Domain,LeanACL,Verify whether LLM is interpreting ACL rules correctly by encoding them in Lean,The project works well as a basic proof of concept for how LLM outputs can be verified in this context using Lean. It fulfils most of my original objectives satisfactorily.,"I would be curious to see whether we can make the theorems agnostic to actual ACL rules by defining them at a higher level of abstraction by defining an algebra over resource types, users and access precedence. If yes, we maybe able generalize the system to arbitrary ACL rules instead of hard coding to specific rules."
+5/2/2026 0:03:03,LeanMowers,"Abhiram R (abhiram.ramesh@o9solutions.com)
+Abhishek Bannerjee abhishek.banerjee@o9solutions.com
+Bharath Dev bharath.dev@o9solutions.com",https://github.com/abhiramr/lean-hackathon/tree/main/LeanMowers,Formal Verification of Autonomy Systems,Eda Verification,"Verified EDA is a critical software system designed to eliminate the fundamental ""Trust Gap"" in Exploratory Data Analysis (EDA) by introducing formal mathematical verification. Traditional EDA workflows using Python libraries like Pandas and NumPy offer no mathematical guarantee of correctness, which poses a risk in regulated industries.1
+
+This project bridges that gap by mirroring every Python EDA operation in Lean 4, a dependently-typed proof assistant, to formally prove theorems that certify the correctness of each analytical step.
+
+System Architecture (Three-Layer Design):
+Computation (Python): Executes the EDA operations (Pandas, NumPy).
+Specification/Verification (Lean 4): Defines formal mathematical specifications and uses the Lean 4 Prover to verify that the Python computations satisfy these specs (e.g., proving variance is non-negative, and correlation is bounded in [-1, 1]).
+Orchestration (Agentic AI/Claude/Azure OpenAI): Automates the pipeline by translating Python logic into Lean 4 specifications, generating proof obligations, attempting automated proof construction, and producing machine-checked verification certificates for stakeholders.1
+The final output provides stakeholders with a machine-checkable proof confirming the analytical correctness, transitioning trust from the analyst to the verifiable output. ",Complete with implementation,"These are our future work items - 
+
+Floating-point verification: Use Flocq or similar libraries to reason about IEEE 754 arithmetic in Lean, closing the float/rational gap.
+Incremental verification: Cache proofs and only re-verify operations whose inputs have changed.
+Visual verification: Extend to chart correctness (e.g., prove that a bar chart accurately represents the underlying data).
+Multi-dataset proofs: Prove properties about joins, merges, and cross-dataset operations.
+Proof export: Generate standalone proof artifacts (PDF certificates with embedded Lean code) for regulatory submission.
+Real-time verification: Stream verification results as the analyst works, providing immediate feedback.
+"
+5/2/2026 0:29:49,LeanMowers,"Abhiram R (abhiram.ramesh@o9solutions.com)
+Abhishek Banerjee (abhishek.banerjee@o9solutions.com)
+Bharath Dev A V (bharath.dev@o9solutions.com)",https://github.com/abhiramr/lean-hackathon/tree/main/LeanMowers,Formal Verification of Autonomy Systems,Verified EDA: Formally Verified Exploratory Data Analysis,"Verified EDA is a critical software system designed to eliminate the fundamental ""Trust Gap"" in Exploratory Data Analysis (EDA) by introducing formal mathematical verification. Traditional EDA workflows using Python libraries like Pandas and NumPy offer no mathematical guarantee of correctness, which poses a risk in regulated industries.
+
+This project bridges that gap by mirroring every Python EDA operation in Lean 4, a dependently-typed proof assistant, to formally prove theorems that certify the correctness of each analytical step. It presents a complete system that performs EDA in Python, mirrors every operation in Lean 4 with machine-checked proofs, and orchestrates the verification pipeline with agentic AI — plus a mission-control dashboard UI.
+",We have developed an end-to-end solution including implementation and a presentation showcasing our EDA prover,"- This can be further extended with more Exploratory Data Analysis formulae / concepts so as to make it a full fledged powerhouse for verified , trustable EDA. 
+
+Some more future work that we had planned as listed in our design document are : 
+
+- Floating-point verification: Use Flocq or similar libraries to reason about IEEE 754 arithmetic in Lean, closing the float/rational gap.
+- Incremental verification: Cache proofs and only re-verify operations whose inputs have changed.
+- Visual verification: Extend to chart correctness (e.g., prove that a bar chart accurately represents the underlying data).
+- Multi-dataset proofs: Prove properties about joins, merges, and cross-dataset operations.
+- Proof export: Generate standalone proof artifacts (PDF certificates with embedded Lean code) for regulatory submission.
+- Real-time verification: Stream verification results as the analyst works, providing immediate feedback.
+"
+5/2/2026 1:24:06,Who sacked my cluster?,"Name: Sachin Singh
+Email: sachinkumarsingh092@gmail.com",https://github.com/sachinkumarsingh092/lean-rl/tree/master/lean_rl/lean,Formal Verification of Autonomy Systems,ProvedSRE,"Kubernetes (https://en.wikipedia.org/wiki/Kubernetes) has become the de facto control plane for automating deployment, scaling, and management of containerized applications in cloud environments. Traditionally, maintaining Kubernetes clusters at scale falls to site reliability engineers (SREs). With the rise of autonomous agents, there have been attempts to delegate this operational burden to LLM-driven systems. While compelling in principle, the non-deterministic nature of LLMs introduces significant challenges, particularly when attempting to safely remediate clusters in degraded or unknown states.
+This project proposes a lean-verified guardrail layer for LLM-driven SRE agents. Under this framework, every execution plan must be accompanied by a lean-checked proof of safety before any action is executed on the cluster. Plans that fail verification are rejected and returned to the agent along with structured, interpretable feedback. This not only prevents unsafe operations but also creates a feedback loop that can be leveraged for supervised fine-tuning (SFT) or reinforcement learning, enabling agents to improve their decision-making over time.","I've managed to emulate kubernetes API enough to make some theorems and test the model out for a RL gym. It's still not full feature parity with upstream kubernetes but allows us to model a subset of it like pods, deployments, and a plan that is emitted by the agent and our lean model verifies the entire state. Some assets below:
+
+Workloads: Pod, Deployment only.
+Scheduling: capacity (cpu/mem), anti-affinity, cordon.
+Disruption: minAvailable PDB.
+Lifecycle: Pending → Running → Terminating | Failed.
+API verbs: create/update/scale/delete + admission with soundness proof.
+
+Full report: https://github.com/sachinkumarsingh092/lean-rl/blob/master/reports/00-checkpoint/talk.pdf","Goal is to model kubernetes as closely as possilble, probably per use case basis.
+Some more things I want to add are:
+
+Workloads: ReplicaSet, StatefulSet, DaemonSet, Job/CronJob.
+
+Identity: Labels, LabelSelector, Namespace as object, OwnerReferences.
+
+Scheduling: nodeSelector, taints/tolerations, requests vs limits, pod affinity + topology 
+spread, priorityClass/preemption, node conditions.
+
+New invariants: PDB-under-evict, quota, network-policy, selector-soundness, owner-ref acyclicity, rollout bounds, scheduler totality.
+
+New verbs: evictPod, patch, bindPod, updateStatus, cascading deleteDeployment, createService, applyConfigMap/Secret.
+
+Theorems to prove (extending the current admitSafe shape):
+pdbUnderEvict: evictPod preserves pdbRespected.
+quotaRespected: Σ requests_ns ≤ quota_ns after every verb.
+endpointsSound: Service.endpoints ⊆ { p | selector.matches p ∧ p.ready }.
+
+and more as we go on."
+5/2/2026 2:54:42,SafeAgent++,Devidas K ( devidas.blr@gmail.com ),https://github.com/Devidasblr/SafeAgentPP,Formal Verification of Autonomy Systems,SafeAgent++: Verified Multi-Agent Guardrails using Lean,"SafeAgent++ is a Lean-based framework for formally verifying safety in multi-agent AI systems. The project models data and agent interactions using security labels (Public/Secret) and enforces Information Flow Control policies.
+
+We formally prove key safety guarantees including:
+- Absence of secret leakage
+- Non-interference between secret and public data
+- Safe communication across agents with different trust levels
+
+The system ensures that sensitive data (e.g., API keys) cannot flow to public agents. These guarantees are mathematically proven in Lean, rather than relying on heuristic or runtime-based guardrails.
+
+The project demonstrates how formal methods can be applied to ensure trustworthy behavior in agentic AI systems, particularly in scenarios involving multiple interacting agents with different trust levels.","The project is functionally complete for its core objectives. We have successfully implemented a working Lean project with formal definitions, safety policies, and machine-checked proofs for non-interference and secure information flow in a multi-agent setting.
+
+The system builds successfully and demonstrates the key guarantees through both formal proofs and executable examples.","This project can be extended in multiple directions:
+
+- Scaling to more complex agent ecosystems with dynamic policies
+- Integrating with real-world AI agent frameworks (e.g., LLM-based systems)
+- Extending the model to handle probabilistic or temporal behaviors
+- Adding verification for prompt injection resistance and adversarial scenarios
+- Developing reusable Lean libraries for AI safety verification
+
+SafeAgent++ can serve as a foundation for building formally verified safety layers in next-generation autonomous and agentic AI systems."
+5/2/2026 4:10:18,Caplean,Chaitanya Garg - chaitanya21248@iiitd.ac.in,https://github.com/CAP-LEAN/CapLean,"Formal Verification of Autonomy Systems, Development of Verified Libraries/Tactics for a Domain",CAPLean(Capability Access Protocol with Lean),"CAPLean is a proved capability envelope for agentic coding pipelines, built in Lean 4. We model every action a coding agent can take — file reads/writes, shell execution, code eval, network calls, and package installation — as an effectful operation over a free monad. Safety is expressed as predicates on traces of this monad, and we prove three layered guarantees:
+
+Capability containment — the agent can only invoke operations within its declared capability scope; privilege escalation is ruled out by construction.
+
+Sandbox safety — code evaluated or executed by the agent cannot escape a declared path and syscall boundary, even under adversarially crafted test inputs.
+
+Supply chain trust — the agent cannot install a package below a configured trust level (verified / unreviewed / known-vulnerable) without an explicit approval transition.
+
+The three layers share a single AgentOp type and Capability predicate, producing a reusable Lean library other teams can build on. As a bonus, we aim to export the proved capability envelope as a Python runtime middleware layer.","All three core objectives from our pitch are delivered. Layer 1 (capability containment) is enforced by construction via the AgentM indexed type — no runtime check needed, the type checker rejects out-of-scope programs outright. Layer 2 (sandbox safety) is proved across three tiers — transparent ops, conservative mode, and certified mode — with path traversal attacks handled via canonical normalization. Layer 3 (supply chain trust) is proved as trustMonotonicity, ensuring every install meets the configured trust floor or carries an explicit approval transition.
+
+The bonus Python middleware objective was fully delivered: capshim.py intercepts and logs ops at runtime, verify_trace.py runs a post-hoc audit, and the caplean-check Lean binary verifies traces against the same formal definitions the theorems are proved over. We also shipped a Cursor/MCP integration beyond the original scope, enabling live Layer 1 enforcement inside an agentic coding session.
+
+The one honest limitation: ""syscall boundary"" in our pitch is implemented as a path prefix boundary in the formal model. Kernel-level syscall interception, symlinks, and TOCTOU races are explicitly out of scope and documented. This is a standard carve-out in formal verification and does not affect the soundness of the proved theorems within their stated scope.","CapLean is designed as a reusable library, so downstream use is the primary intended path. Any team building an agentic coding tool can add CapLean as a Lake dependency and get Layer 1 safety for free — capability violations are caught at compile time, not at runtime. We expect the most immediate adoption to come from teams using Lean 4 in formal-methods-adjacent infrastructure, where the bar for trusted dependencies is already high.
+
+For us, the natural next steps are:
+
+Closing the model gaps. The three things explicitly left out of scope — filesystem symlinks, TOCTOU races, and syscall-level interception — are the most important near-term additions. Modeling symlinks changes the path containment proof from prefix-matching to a full filesystem graph problem. TOCTOU requires introducing a notion of time or ordering into the trace model.
+
+Connecting to a live registry. trustMonotonicity currently trusts the declared DepGraph. Wiring it to a live source like OSV or the Python Package Index advisory feed would make the supply chain layer meaningful end-to-end, not just model-correct.
+
+Richer MCP coverage. The current MCP server enforces Layer 1 live and defers Layers 2 and 3 to session-end audit. Lifting sandbox and trust checks into the live enforcement path — so the agent is blocked in real time, not just flagged after the fact — is the most impactful runtime improvement.
+
+Exporting to other agent frameworks. The Python bridge today wraps open() and subprocess.run(). Adapting it to LangChain tool wrappers, CrewAI tasks, or OpenAI function-calling schemas would let teams in non-Lean stacks benefit from the formal guarantees without writing any Lean."
+5/2/2026 9:46:32,Turnstile,"Shubham Kumar, kumar.shubham.off@gmail.com",github.com/shubhamkumar13/emergence_lean_hack_2026,Other (Please specify in the final question),clues by sam solver,A solver to use lean-smt lib for constraint solving (can use grind but lean-smt is plug and play),It is incomplete (it is 20% complete),I want to make this as a chrome extension to help in solving clues by sam
+5/2/2026 10:02:24,Turnstile,"Brahadeesh Sankarnarayana, brahadeesh@iitj.ac.in, Shubham Kumar kumar.shubham.off@gmail.com",github.com/emergence_lean_hack_2026,Other (Please specify in the final question),clues by sam solver,A solver for clues by sam gane,20% todo: make smt discharge work with the current lean version (4.29) and then write a frontend and backend in gleam,"First, try and make the smtlib work with the current cluesbysam rules, second use gleam, js sucks and gleam has a js ffi I would rather use that"
+5/2/2026 11:20:45,sambar&Soundness,"Vimala S. cs19d750@smail.iitm.ac.in, 
+Durwasa Chakraborty cs24d011@cse.iitm.ac.in",https://github.com/anachronisticmonk/QueryBridge,Development of Verified Libraries/Tactics for a Domain, QueryBridge:  A formally verified jq -> SQL translation in Lean 4,"Modern data-lake architectures maintain two views of the same data: a flexible JSON
+layer queried with jq, and a columnar relational layer queried with SQL over
+formats such as Parquet. Engineers routinely re-express the same logical query
+across both layers, and silently divergent translations are among the hardest
+bugs to detect, both sides appear correct on small inputs and disagree only on
+the edge cases that influence production decisions. QueryBridge addresses this
+problem by formally verifying that the translation between a supported subset of
+jq and SQL preserves semantics. The proof is mechanized in Lean 4. The central
+correctness theorem states that for any JSON database, any columnar database
+that is permutation-equivalent to it, and any supported jq query, evaluating the
+query directly and evaluating its SQL translation yield equivalent results. The
+proof proceeds by case analysis on the six query constructors. Complementing the
+proof, we use Plausible for property-based testing: it generates random
+databases and queries to check the same correspondence, and surfaces minimal
+counterexamples whenever a property fails.
+","
+It is substantially complete with respect to the hackathon objectives we set out
+at the start. We achieved end-to-end verification of the supported jq subset 
+projection (`.[]`), `select` with predicates, `length`, insert, and update —
+closed under a single mechanized theorem (`query_equiv`) that ranges over all
+query constructors. On top of that sits a working LLM -> jq  ->SQL pipeline that
+exercises the proof on every user-issued query, structured marshalling of proof
+objects between the Lean kernel and the surrounding backend/frontend stack, and
+a property-based suite that demonstrates the search machinery for producing
+counterexamples. The whole system is packaged as a containerized, single-port
+deployment.","The largest extension ahead is lifting the formalization from a flat
+single-table schema to nested JSON with foreign-key generation. JSON in
+real-world datalakes is recursive , a record's value is itself a record (user ->
+address -> city)  and bridging that into the relational world demands three
+things at once: schema flattening, auto-generated foreign keys to connect parent
+rows to their children, and join-aware SQL emission. This is qualitatively
+different from enlarging the operator vocabulary. The JDB type ceases to be a
+flat list and becomes a recursive sum; the SQL side becomes a multi-table schema
+knit together by referential-integrity constraints; and the `query_equiv` proof
+must now induct over the tree structure of the data, not merely case-split on
+the query constructor. It is the heaviest proof investment on the roadmap, and
+it is the step that would let QueryBridge handle JSON of the shape actually
+found in production datalakes.
+
+A second axis is to instantiate the same template for other query-language
+pairs. The strongest candidates we can identify are GraphQL -> SQL and Pandas
+dataframe chains -> SQL. In either case the constructor inventory and the per-arm
+proof obligations shift, alongside further engineering whose cost is hard to
+estimate without a concrete specification in hand.
+"
+5/2/2026 11:22:28,LeanDetective,Nilesh Trivedi nilesh@snowmountain.ai,https://github.com/nileshtrivedi/lean-detective,Development of Verified Libraries/Tactics for a Domain,LeanDetective,A Lean Library that can assist with deductive reasoning in crime investigations such as murder mysteries,75%. Yet to implement modeling of Statements and Clues.,"This library can be used to verify and reward LLM-based AI-detective agents aiming to become experts in this domain.
+This library can also be further generalized to handle legal reasoning, to power AI-lawyer agents."
+5/2/2026 11:34:30,MARS,"Aastha Gupta, aastha.gupta@students.iiserpune.ac.in
+Saachi Kaup, spmsaachi@gmail.com
+Malhar Patel, malharalpeshpatel@gmail.com,
+Rajlakshmi Chavan, rajlakshmi.emp@gmail.com",https://github.com/aastha-guptaa/Lean-Hackathon,"Formal Verification of Autonomy Systems, Other (Please specify in the final question)",Verified LLM Chess Prover,"The goal of this project is to create a formally verified bridge between Large Language Models (LLMs) and a mathematical proof engine (Lean 4). 
+
+Specifically, it targets Chess Mate-in-N puzzles, where an LLM suggests a sequence of moves to achieve checkmate, and Lean 4 rigorously verifies that:
+
+1. Every move in the sequence is physically legal according to the rules of chess.
+2. The final state is a mathematically sound checkmate.","Our project has completed the above stated objective. However, we wanted to add an additional component. Once lean verifies the solution, if it is incorrect, the LLM responds back with a modified solution.
+
+We are thinking this could be a `SKILL.md`, that can be configurable in many coding agents. We have not started this as part of our scope yet. ","Once the SKILL is configured, we can see how the full loop works. As from LLM-Client to Lean, and back to Client feedback.
+
+We can refine the project to give richer data to the LLM. For example, why is that the move is invalid. Our lean system can help guide the LLM to a correct solution. 
+
+One direction this could go is using formally verified game engines as a constraint-checking layer for AI agents. So we expand to more games. "
+5/2/2026 11:35:49,FlowGuard,"Dev Soni, 22dcs004@lnmiit.ac.in",https://github.com/DevSoni31/FlowGuard,"Formal Verification of Autonomy Systems, Development of Verified Libraries/Tactics for a Domain",FlowGuard: Formally Verified Capability Safety for Multi-Agent AI Systems,"FlowGuard is a formal verification framework that proves a foundational safety property of multi-agent AI systems: individual safety does not survive composition. Two agents that are each individually safe can, when deployed together, exhibit emergent capabilities that neither held alone, capabilities such as data exfiltration or remote execution. FlowGuard detects this before deployment, with every finding backed by a machine-checked mathematical theorem.
+
+The project is structured across six interdependent Lean 4 proof layers, compiled cleanly with zero sorry-s in 3304 lake build jobs:
+
+1. CapHypergraph.lean: The core capability theory. Capabilities are modelled as a hypergraph over a finite set Cap, with hyperedges of the form {c₁, c₂, ...} → c_new. The central result is nonCompositionality_universal: for any agents and hyperedges satisfying the structural premises, individual safety (isCapSafe) does not imply compositional safety. A constructive counterexample (nonCompositionalityCounterexample) and a coalition extension (coalition_nonCompositionality_universal) are also proved.
+
+2. InfoFlow.lean: An information-flow control (IFC) layer built on a security lattice (Low ≤ Medium ≤ High). Proves nonInterference_nonCompositional: a pipeline where every adjacent hop is locally approved can still globally violate noninterference. Formalises the distinction between isHopwiseSafe (per-hop check) and isTransitivelySafe (endpoint check), and proves they are incomparable.
+
+3. AgentProgram.lean: Programs are modelled as a free monad (Prog). SafeProg captures program-level safety. The key separation theorem, safeProg_does_not_imply_capSafe, proves that program-level safety is insufficient: a formally safe program can still carry an unsafe capability contract.
+
+4. FlowCheck.lean: Defines ValidPipeline and HopwiseValidPipeline as certificate types, and proves validPipeline_iff - the only biconditional in the system. A ValidPipeline certificate is necessary and sufficient for compositional safety. This is the sound-and-complete characterisation.
+
+5. CedarBridge.lean: Formalises Amazon Cedar's policy model inside Lean. Proves cedar_is_incomplete: Cedar correctly denies every individual agent's access to forbidden capabilities, yet the composed team can exfiltrate data anyway. The gap is structural since Cedar reasons per-request, not over composed capability sets.
+
+6. CedarIncompleteness.lean: The impossibility master theorem. cedar_blind_to_capsets proves that Cedar policies, whose type is CedarRequest → CedarDecision, cannot take a Finset Cap as input. cedar_incomplete_universally extends this to all Cedar policies universally: no Cedar policy can detect capability emergence.
+
+Alongside the Lean proofs, a Python proof-of-concept pipeline (poc/analyze.py) demonstrates the framework end-to-end on real agent code. It extracts capability specifications from raw Python source via AST analysis, avoiding the use of annotations and API key for now (provision for LLM mode in the code using --mode llm; for ease of demonstration reproduction, using AST here), runs the mathematical safety checks, queries the compiled Lean kernel live for five theorem evaluations, and cites the exact theorem statement read directly from the .lean source files. The full run, including lake build, takes approximately 30 minutes and produces a structured terminal output and a browser-based summary report.
+
+The framework is motivated by the work of Cosimo Spera on multi-agent safety, and demonstrates that the formal gap between per-agent policy evaluation and compositional safety is not merely intuitive but mathematically provable and practically detectable.","The core formal objectives are fully complete. All six Lean proof layers compile cleanly with zero sorry-s across 3304 lake build jobs. The six primary theorems: nonCompositionality_universal, nonInterference_nonCompositional, safeProg_does_not_imply_capSafe, validPipeline_iff, cedar_is_incomplete, and cedar_incomplete_universally are all machine-checked and accepted by the Lean 4 kernel.
+
+The Python proof-of-concept pipeline is fully functional: AST-based capability extraction, live Lean kernel queries, hyperedge closure computation, individual and compositional safety checking, and traceable theorem citation from the .lean source files are all operational. A browser-based summary report is generated at the end of each run.
+
+What remains as future work (not incomplete objectives): LLM extraction mode is implemented but depends on an external API key and was not the primary demo path. An LLM-based automated Lean proof generation module for new agent compositions is designed but not implemented. Parsers for production agent frameworks (LangChain, AutoGen, CrewAI) are identified as the natural next extension but are out of scope for this submission.
+
+Overall completion relative to stated objectives: achieved.","FlowGuard establishes the foundational layer of a larger verification stack for multi-agent AI. Several natural extensions follow directly from the current work:
+
+1. Production framework parsers. The AST extractor currently targets raw Python agent classes. The immediate next step is parsers for LangChain, AutoGen, and CrewAI agent definitions, which would allow FlowGuard to run on real production deployments without any code modification.
+
+2. LLM-augmented extraction. The --mode llm and --mode both paths are already implemented in the PoC. A future direction is using LLMs to propose new hyperedge rules from agent descriptions, and then formally verifying those rules in Lean before adding them to the hyperedge library, principally a human-in-the-loop pipeline for expanding the formal threat model.
+
+3. Automated proof generation. Given a new agent composition and a detected unsafe hyperedge firing, the system could automatically generate a specialisation of nonCompositionality_universal as a Lean proof term for that specific instance. This would give auditors not just a verdict but a machine-checkable certificate tailored to their exact system.
+
+4. Richer lattices and IFC policies. InfoFlow.lean currently uses a three-level lattice (Low, Medium, High). The structure is fully parametric and can be extended to arbitrary finite lattices, supporting domain-specific classification schemes (e.g., medical data tiers, financial clearance levels).
+
+5. Runtime monitoring. The current framework is a static analyser. A future direction is a runtime monitor that evaluates capability emergence dynamically as agent interactions are observed, using the same hyperedge closure algorithm as a live safety check rather than a pre-deployment one.
+
+6. Integration with Cedar and other policy engines. CedarBridge.lean proves the structural incompleteness of Cedar for this class of property. A practical integration would be a FlowGuard pre-filter that runs before Cedar evaluation, flagging compositions that Cedar cannot evaluate and requiring human or formal review.
+
+The project is designed to be modular: each Lean layer is independently importable, and the PoC pipeline is decoupled from the proof layer via the lake build interface. Any team working on AI safety tooling, formal methods for autonomous systems, or multi-agent security can extend individual layers without touching the others."
+5/2/2026 11:52:11,LeanSupreme,"Vignesh Karri, vigneshkarri5@gmail.com",https://github.com/Lsonic233/lean-cbs,Formal Verification of Autonomy Systems,Verified Capability-Based Access Control for LLM Agents,"
+A system prompt can tell an LLM to only read a file, but nothing structurally prevents the LLM from violating that instruction. One example of failure is **prompt injection**: a user asks an LLM to summarise a document, and hidden in the document is text like *""delete /home/user/secrets.txt""*. When the agent reads the file and feeds its contents back to the LLM, the LLM may treat the injected text as an instruction and generate a delete tool call, which the agent then executes.
+
+Agent frameworks address this with runtime checks — whitelists, tool gating, and heuristic filters. These approaches are fragile: a whitelist must enumerate every allowed action, a filter must anticipate every attack pattern, and a system prompt is a suggestion the LLM may ignore under adversarial input. The gap between the stated policy and its enforcement is where attacks succeed.
+
+## The Approach
+
+This project implements a **verified capability-based access control** system for LLM agents in Lean 4, drawing on the object-capability security tradition (see the seL4 microkernel for prior work on capability-based models).
+
+The core idea: every action an agent wants to take must be accompanied by an unforgeable capability token that authorises that action. A trusted orchestrator issues a set of capabilities for each task. When the LLM produces a program as structured JSON, a verification layer checks that every action in the program is backed by a real, issued capability. A program that references a capability the orchestrator never issued — regardless of how it was generated or what injected text caused it — cannot be executed.
+The pipeline is:
+
+**Orchestrator issues capabilities → LLM emits JSON DSL → Parser verifies and produces a proof → Verified program executes**
+
+The key property is that the parser does not merely *check* the program at runtime — it produces a **proof term** (`SafeProg env prog`) that Lean's kernel certifies. The interpreter (`CapM.runSafe`) cannot be called without this proof. 
+
+## The Multi-Agent Extension *(work in progress, incomplete)*
+
+The architecture's real power is in the multi-agent case. Consider the following scenario: A top level agent routes customer service tickets to specialist sub-agents. The top level agent has broad authority over customer data but the capabilities issued to the sub-agents must be a narrow subset of that authority. In lean, the semantic hierarchy of capabilities will be defined as an authority lattice. 
+
+This is **delegation with attenuation**: a capability passed from one agent to another must be a semantic subset of the delegator's own capability. An agent cannot grant more authority than it holds.
+
+The planned Lean model introduces an authority lattice that formalises the semantic hierarchy of capabilities — which capabilities are weaker versions of which others, across dimensions like resource scope, operation type, and time bounds. A `delegateSafe` constructor for `SafeProg` would require a proof that the delegated capability attenuates an existing one, making it structurally impossible to escalate privilege during delegation.
+
+
+The main theorem here is **Authority Confinement** which states that every capability held by an agent is derivable via a sequence of delegations starting from the orchestrator's initial grants. ","I had divided the project into two stages - one was the single agent capability system with full json parsing and verification. This part of the project is complete. A full project report is there in the github repo. 
+
+The multi agent system is incomplete and currently in progress and hope to continue building on this. Currently only the foundational types have been laid out but I still have to work on fully modelling the AgentSystem model and the confinement theorem. ","I hope to continue building out the multi agent scenario and finish proving the main confinement theorem. A few more extensions on the current project would be to build dynamic delegation, attenuation on multi axes and make the DSL a lot richer. 
+Another extension would be to build provably safe cryptographic authorisation. 
+I believe there is a lot to explore in building verifiable agent coordination. "
+5/2/2026 11:56:44,Kleisli Triple,"Naveen Maurya, naveenmaurya@iisc.ac.in
+Bhoris Dhanjal,  bhoris.dhanjal@icts.res.in
+Mohammed Farhaan, mohammedfarhaan.cs24@bmsce.ac.in",https://github.com/NaveenMaurya749/VerifiedVersionControl,Formal Verification of Autonomy Systems,VerifiedVersionControl,"Suppose a number of agents are collaborating on a repository located at `remote`, with access to 
+a `local` repository each. How do we make sure that the changes contributed by multiple agents
+do not affect each other's work, overwriting them?
+We aimed to build a toy model of a version control system with verified behavior
+checked and enforced through Lean, to flag `merge` conflicts when they arise, and certify
+whenever `actions` are safe.
+We also implemented a `Diff-Tracker` along with a Json schema to implement the verification of incompatibility of commits.","We were able to develop some of the main monadic skeleton and other components like the Diff Tracker. But further furnishing needs to be done, such as proving some theorems about the VCS itself.","One can expand on to prove some relevant theorems.
+One could further implement this as part of an actual agentic framework where a number of agents share a remote repository to work on, with direct access only to a local clone for each.
+One could also develop Filesystem semantics within Lean, and map all of the ""pure semantics"" in Lean to actual semantics via a backend."
+5/2/2026 12:15:25,Invariant AI,Priyashree Panda,https://github.com/Priyashree1312/InvariantAI,Formal Verification of Autonomy Systems,Constraint-Aware Risk Prediction with Formal Verification,"I propose a constraint-aware AI system for fraud and insurance risk prediction, where every model output is formally verified using Lean 4. Traditional models can produce inconsistent or unsafe predictions, especially in rare-event scenarios. My system enforces domain-specific constraints such as probability bounds and logical consistency rules. Predictions that violate these constraints are automatically detected and corrected. This ensures that AI outputs are not just accurate, but provably safe and reliable.","Based on everything I’ve built and debugged today (Git setup, repo sync, conflict resolution, and project structure), my project is currently at an early–intermediate stage relative to typical AI research objectives.","InvariantAI can evolve into a modular AI research framework for testing, comparing, and improving models under invariant learning and real-world conditions, making it useful for both research and applied ML systems."
+5/2/2026 12:57:19,totientfunction,Sagnik Saha (mail@thesagniksaha.com),https://github.com/thesagniksaha/LOUVRE,"Formal Verification of Autonomy Systems, Development of Verified Libraries/Tactics for a Domain",LOUVRE: Lean Output Verification & Redaction Engine,"LOUVRE is a Lean 4 library that turns redaction policies for multi-agent AI systems into proof-carrying artefacts. A generator agent (LLM) proposes a redaction policy as JSON, Lean 4 checks that the policy satisfies a universally-quantified safety predicate and a liveness predicate. Only certified policies are accepted by the publisher in the multi-agent pipeline.
+
+The implementation is paired with an LLM-in-loop bridge, which checks corpus-level obligations and returns counterexamples. It calls OpenAI's GPT-4o, retries with counterexample feedback, and produces a certified policy.",Approximately 85% of the planned scope.,"- Replace the Matcher fragment with alternative regex formalisation.
+- Integrate CertifiedPolicy as the certified-declassification primitive for information-flow frameworks.
+- Expose the runtime as a Python middleware via Lean-to-C compilation.
+- Strengthen the noninterference theorem to an adversarial-input form."
