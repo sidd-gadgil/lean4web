@@ -36,9 +36,12 @@ The file `leanweb-config.json` takes the following form:
   "name": "Display name",
   "default": false,
   "hidden": false,
-  "examples": [
-    { "file": "MathlibDemo/Bijection.lean", "name": "Example's display name" },
-    ...
+  "units": [
+    { "file": "MathlibDemo/Bijection.lean", "name": "Unit display name" },
+    {
+      "name": "Nested group",
+      "units": [{ "route": "overview", "name": "Overview" }]
+    }
   ]
 }
 ```
@@ -48,7 +51,7 @@ The file `leanweb-config.json` takes the following form:
   by default and when no project is specified in the url.
 - `hidden`: If set to `true`, then the project does not appear in the dropdown and can
   only be accessed via direct link.
-- `examples`: list of examples. The path is relativ to the project's directory, e.g. `{PROJECTS_BASE_PATH}/{PROJECT_FOLDER}/{EXAMPLE_PATH.lean}`
+- `units`: nested list of units shown in the `Units` menu. File paths are relative to the project's directory, e.g. `{PROJECTS_BASE_PATH}/{PROJECT_FOLDER}/{UNIT_PATH.lean}`. A unit can also contain a route such as `"overview"`, or nested `units`. Legacy `examples` lists are still supported as a flat fallback.
 
 ## automatic builds
 

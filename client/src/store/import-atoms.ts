@@ -26,6 +26,7 @@ export const importUrlAtom = atom(
     set(importUrlBaseAtom, url)
     set(urlArgsAtom, {
       ...urlArgs,
+      route: undefined,
       url: fixedEncodeURIComponent(url),
       code: undefined,
       codez: undefined,

@@ -75,6 +75,7 @@ app.use("/api/projects", async (req, res) => {
             name: String(config.name), // TODO: ensure this is not null
             hidden: Boolean(config.hidden) ?? false,
             default: Boolean(config.default) ?? false,
+            units: config.units ?? undefined, // TODO: validate
             examples: config.examples ?? [], // TODO: validate
           },
         });
@@ -116,6 +117,15 @@ app.use("/api/toolchain/:project", (req, res, next) => {
 
 // Using the client files
 app.use(express.static(path.join(__dirname, "..", "client", "dist")));
+
+// SPA routes, e.g. `/overview`, should still serve the client entry point.
+app.get("/{*splat}", (req, res, next) => {
+  if (req.path.startsWith("/api") || req.path.startsWith("/websocket")) {
+    next();
+    return;
+  }
+  res.sendFile(path.join(__dirname, "..", "client", "dist", "index.html"));
+});
 
 app.use(nocache());
 

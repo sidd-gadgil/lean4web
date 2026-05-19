@@ -8,6 +8,7 @@
  */
 export interface UrlArgs {
   project?: string
+  route?: string
   url?: string
   code?: string
   codez?: string

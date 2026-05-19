@@ -7,10 +7,13 @@ import {
   faBars,
   faCloudArrowUp,
   faDownload,
+  faFileCode,
+  faFolderOpen,
   faGear,
   faHammer,
+  faLayerGroup,
   faShield,
-  faStar,
+  faSitemap,
   faUpload,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons'
@@ -19,6 +22,7 @@ import { useAtom } from 'jotai'
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react'
 
 import { lean4webConfig } from '../../config'
+import { LeanWebProject, LeanWebUnit } from '../api/project-types'
 import ZulipIcon from '../assets/zulip.svg'
 import { codeAtom } from '../editor/code-atoms'
 import ImpressumPopup from '../Popups/Impressum'
@@ -30,16 +34,94 @@ import { mobileAtom } from '../settings/settings-atoms'
 import { SettingsPopup } from '../settings/SettingsPopup'
 import { setImportUrlAndProjectAtom } from '../store/import-atoms'
 import { currentProjectAtom, visibleProjectsAtom } from '../store/project-atoms'
+import { urlArgsAtom, urlArgsStableAtom } from '../store/url-atoms'
 import { save } from '../utils/SaveToFile'
 import { Dropdown } from './Dropdown'
 import { NavButton } from './NavButton'
+
+function UnitMenuItem({
+  project,
+  unit,
+  closeUnits,
+}: {
+  project: LeanWebProject
+  unit: LeanWebUnit
+  closeUnits: () => void
+}) {
+  const [, setImportUrlAndProject] = useAtom(setImportUrlAndProjectAtom)
+  const [urlArgs] = useAtom(urlArgsStableAtom)
+  const [, setUrlArgs] = useAtom(urlArgsAtom)
+  const [open, setOpen] = useState(false)
+
+  if (unit.units) {
+    return (
+      <Dropdown
+        open={open}
+        setOpen={setOpen}
+        icon={faFolderOpen}
+        text={unit.name}
+        useOverlay={false}
+        onClick={(ev) => ev.stopPropagation()}
+      >
+        {unit.units.map((child) => (
+          <UnitMenuItem
+            key={`${project.folder}-${unit.name}-${child.name}`}
+            project={project}
+            unit={child}
+            closeUnits={closeUnits}
+          />
+        ))}
+      </Dropdown>
+    )
+  }
+
+  if (unit.route) {
+    return (
+      <NavButton
+        icon={faSitemap}
+        text={unit.name}
+        title={`${project.config.name}: ${unit.name}`}
+        onClick={() => {
+          setUrlArgs({
+            ...urlArgs,
+            project: project.config.default ? undefined : project.folder,
+            route: unit.route,
+            url: undefined,
+            code: undefined,
+            codez: undefined,
+          })
+          closeUnits()
+        }}
+      />
+    )
+  }
+
+  if (unit.file) {
+    return (
+      <NavButton
+        icon={faFileCode}
+        text={unit.name}
+        title={`${project.config.name}: ${unit.name}`}
+        onClick={() => {
+          setImportUrlAndProject({
+            url: `${window.location.origin}/api/example/${project.folder}/${unit.file}`,
+            project: project.folder,
+          })
+          closeUnits()
+        }}
+      />
+    )
+  }
+
+  return null
+}
 
 /** The menu items either appearing inside the dropdown or outside */
 function FlexibleMenu({
   isInDropdown = false,
   setOpenNav,
-  openExample,
-  setOpenExample,
+  openUnit,
+  setOpenUnit,
   openLoad,
   setOpenLoad,
   setContent,
@@ -48,16 +130,15 @@ function FlexibleMenu({
 }: {
   isInDropdown: boolean
   setOpenNav: Dispatch<SetStateAction<boolean>>
-  openExample: boolean
-  setOpenExample: Dispatch<SetStateAction<boolean>>
+  openUnit: boolean
+  setOpenUnit: Dispatch<SetStateAction<boolean>>
   openLoad: boolean
   setOpenLoad: Dispatch<SetStateAction<boolean>>
   setContent: (code: string) => void
   setLoadUrlOpen: Dispatch<SetStateAction<boolean>>
   setLoadZulipOpen: Dispatch<SetStateAction<boolean>>
 }) {
-  const [, setImportUrlAndProject] = useAtom(setImportUrlAndProjectAtom)
-  const [projects] = useAtom(visibleProjectsAtom)
+  const [project] = useAtom(currentProjectAtom)
   const loadFileFromDisk = (event: ChangeEvent<HTMLInputElement>) => {
     console.debug('Loading file from disk')
     const fileToLoad = event.target.files![0]
@@ -74,33 +155,24 @@ function FlexibleMenu({
   return (
     <>
       <Dropdown
-        open={openExample}
-        setOpen={setOpenExample}
-        icon={faStar}
-        text="Examples"
+        open={openUnit}
+        setOpen={setOpenUnit}
+        icon={faLayerGroup}
+        text="Units"
         useOverlay={isInDropdown}
         onClick={() => {
           setOpenLoad(false)
           !isInDropdown && setOpenNav(false)
         }}
       >
-        {projects.map((it) =>
-          it.config.examples?.map((example) => (
-            <NavButton
-              key={`${it.config.name}-${example.name}`}
-              icon={faStar}
-              text={example.name}
-              title={`${it.config.name}: ${example.name}`}
-              onClick={() => {
-                setImportUrlAndProject({
-                  url: `${window.location.origin}/api/example/${it.folder}/${example.file}`,
-                  project: it.folder,
-                })
-                setOpenExample(false)
-              }}
-            />
-          )),
-        )}
+        {(project?.config.units ?? project?.config.examples ?? []).map((unit) => (
+          <UnitMenuItem
+            key={`${project?.folder}-${unit.name}`}
+            project={project!}
+            unit={unit}
+            closeUnits={() => setOpenUnit(false)}
+          />
+        ))}
       </Dropdown>
       <Dropdown
         open={openLoad}
@@ -109,7 +181,7 @@ function FlexibleMenu({
         text="Load"
         useOverlay={isInDropdown}
         onClick={() => {
-          setOpenExample(false)
+          setOpenUnit(false)
           !isInDropdown && setOpenNav(false)
         }}
       >
@@ -161,7 +233,7 @@ export function Menu({
 
   // state for handling the dropdown menus
   const [openNav, setOpenNav] = useState(false)
-  const [openExample, setOpenExample] = useState(false)
+  const [openUnit, setOpenUnit] = useState(false)
   const [openLoad, setOpenLoad] = useState(false)
   const [loadUrlOpen, setLoadUrlOpen] = useState(false)
   const [loadZulipOpen, setLoadZulipOpen] = useState(false)
@@ -208,8 +280,8 @@ export function Menu({
         <FlexibleMenu
           isInDropdown={false}
           setOpenNav={setOpenNav}
-          openExample={openExample}
-          setOpenExample={setOpenExample}
+          openUnit={openUnit}
+          setOpenUnit={setOpenUnit}
           openLoad={openLoad}
           setOpenLoad={setOpenLoad}
           setContent={setContent}
@@ -222,7 +294,7 @@ export function Menu({
         setOpen={setOpenNav}
         icon={openNav ? faXmark : faBars}
         onClick={() => {
-          setOpenExample(false)
+          setOpenUnit(false)
           setOpenLoad(false)
         }}
       >
@@ -230,8 +302,8 @@ export function Menu({
           <FlexibleMenu
             isInDropdown={true}
             setOpenNav={setOpenNav}
-            openExample={openExample}
-            setOpenExample={setOpenExample}
+            openUnit={openUnit}
+            setOpenUnit={setOpenUnit}
             openLoad={openLoad}
             setOpenLoad={setOpenLoad}
             setContent={setContent}

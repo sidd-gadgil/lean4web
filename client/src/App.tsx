@@ -14,10 +14,13 @@ import Split from 'react-split'
 import LeanLogo from './assets/logo.svg'
 import { codeAtom } from './editor/code-atoms'
 import { Menu } from './navigation/Navigation'
+import { Overview } from './overview/Overview'
 import { mobileAtom, settingsAtom } from './settings/settings-atoms'
 import { lightThemes } from './settings/settings-types'
 import { importedCodeAtom } from './store/import-atoms'
+import { locationAtom } from './store/location-atoms'
 import { currentProjectAtom } from './store/project-atoms'
+import { urlArgsStableAtom } from './store/url-atoms'
 import { screenWidthAtom } from './store/window-atoms'
 import { save } from './utils/SaveToFile'
 
@@ -33,6 +36,11 @@ function App() {
   const [project] = useAtom(currentProjectAtom)
   const [code, setCode] = useAtom(codeAtom)
   const [importedCode] = useAtom(importedCodeAtom)
+  const [urlArgs] = useAtom(urlArgsStableAtom)
+  const [location] = useAtom(locationAtom)
+  const pathRoute = location.pathname?.replace(/^\/+/, '') || undefined
+  const route =
+    urlArgs.route ?? (urlArgs.url || urlArgs.code || urlArgs.codez ? undefined : pathRoute)
 
   const model = editor?.getModel()
 
@@ -265,58 +273,62 @@ function App() {
           setCodeMirror={setCodeMirror}
         />
       </nav>
-      <Split
-        className={`editor ${dragging ? 'dragging' : ''}`}
-        gutter={(_index, _direction) => {
-          const gutter = document.createElement('div')
-          gutter.className = `gutter` // no `gutter-${direction}` as it might change
-          return gutter
-        }}
-        gutterStyle={(_dimension, gutterSize, _index) => {
-          return {
-            width: mobile ? '100%' : `${gutterSize}px`,
-            height: mobile ? `${gutterSize}px` : '100%',
-            cursor: mobile ? 'row-resize' : 'col-resize',
-            'margin-left': mobile ? 0 : `-${gutterSize}px`,
-            'margin-top': mobile ? `-${gutterSize}px` : 0,
-            'z-index': 0,
-          }
-        }}
-        gutterSize={5}
-        onDragStart={() => setDragging(true)}
-        onDragEnd={() => setDragging(false)}
-        sizes={mobile ? [50, 50] : [70, 30]}
-        direction={mobile ? 'vertical' : 'horizontal'}
-        style={{ flexDirection: mobile ? 'column' : 'row' }}
-      >
-        <div className="codeview-wrapper" style={mobile ? { width: '100%' } : { height: '100%' }}>
-          {codeMirror && (
-            <CodeMirror
-              className="codeview plain"
-              value={code}
-              extensions={[EditorView.lineWrapping]}
-              height="100%"
-              maxHeight="100%"
-              theme={lightThemes.includes(settings.theme) ? 'light' : 'dark'}
-              onChange={setContent}
-            />
-          )}
-          <div ref={editorRef} className={`codeview${codeMirror ? ' hidden' : ''}`} />
-        </div>
-        <div
-          ref={infoviewRef}
-          className="vscode-light infoview"
-          style={mobile ? { width: '100%' } : { height: '100%' }}
+      {route === 'overview' ? (
+        <Overview />
+      ) : (
+        <Split
+          className={`editor ${dragging ? 'dragging' : ''}`}
+          gutter={(_index, _direction) => {
+            const gutter = document.createElement('div')
+            gutter.className = `gutter` // no `gutter-${direction}` as it might change
+            return gutter
+          }}
+          gutterStyle={(_dimension, gutterSize, _index) => {
+            return {
+              width: mobile ? '100%' : `${gutterSize}px`,
+              height: mobile ? `${gutterSize}px` : '100%',
+              cursor: mobile ? 'row-resize' : 'col-resize',
+              'margin-left': mobile ? 0 : `-${gutterSize}px`,
+              'margin-top': mobile ? `-${gutterSize}px` : 0,
+              'z-index': 0,
+            }
+          }}
+          gutterSize={5}
+          onDragStart={() => setDragging(true)}
+          onDragEnd={() => setDragging(false)}
+          sizes={mobile ? [50, 50] : [70, 30]}
+          direction={mobile ? 'vertical' : 'horizontal'}
+          style={{ flexDirection: mobile ? 'column' : 'row' }}
         >
-          <p className={`editor-support-warning${codeMirror ? '' : ' hidden'}`}>
-            You are in the plain text editor
-            <br />
-            <br />
-            Go back to the Monaco Editor (click <FontAwesomeIcon icon={faCode} />) for the infoview
-            to update!
-          </p>
-        </div>
-      </Split>
+          <div className="codeview-wrapper" style={mobile ? { width: '100%' } : { height: '100%' }}>
+            {codeMirror && (
+              <CodeMirror
+                className="codeview plain"
+                value={code}
+                extensions={[EditorView.lineWrapping]}
+                height="100%"
+                maxHeight="100%"
+                theme={lightThemes.includes(settings.theme) ? 'light' : 'dark'}
+                onChange={setContent}
+              />
+            )}
+            <div ref={editorRef} className={`codeview${codeMirror ? ' hidden' : ''}`} />
+          </div>
+          <div
+            ref={infoviewRef}
+            className="vscode-light infoview"
+            style={mobile ? { width: '100%' } : { height: '100%' }}
+          >
+            <p className={`editor-support-warning${codeMirror ? '' : ' hidden'}`}>
+              You are in the plain text editor
+              <br />
+              <br />
+              Go back to the Monaco Editor (click <FontAwesomeIcon icon={faCode} />) for the
+              infoview to update!
+            </p>
+          </div>
+        </Split>
+      )}
     </div>
   )
 }

@@ -1,0 +1,90 @@
+.overview {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  background: var(--vscode-editor-background);
+  color: var(--vscode-editor-foreground);
+}
+
+.overview-toolbar {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid var(--vscode-menu-separatorBackground);
+}
+
+.overview-toolbar h1 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.overview-toolbar p {
+  margin: 0;
+  color: var(--vscode-descriptionForeground);
+}
+
+.overview-canvas {
+  min-width: 1000px;
+  padding: 1rem;
+}
+
+.overview-canvas svg {
+  width: 100%;
+  min-height: 34rem;
+}
+
+.overview-edge {
+  stroke: var(--vscode-editorLineNumber-foreground);
+  stroke-width: 2;
+}
+
+.overview-canvas marker path {
+  fill: var(--vscode-editorLineNumber-foreground);
+}
+
+.overview-node {
+  cursor: pointer;
+}
+
+.overview-node rect {
+  fill: var(--vscode-button-background);
+  stroke: var(--vscode-button-border, var(--vscode-menu-separatorBackground));
+  stroke-width: 1;
+}
+
+.overview-node text {
+  fill: var(--vscode-button-foreground);
+  font-size: 15px;
+  pointer-events: none;
+}
+
+.overview-node:hover rect,
+.overview-node:focus rect {
+  fill: var(--vscode-button-hoverBackground);
+  outline: none;
+}
+
+.overview-units {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0 1rem 1rem;
+}
+
+.overview-units button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid var(--vscode-menu-separatorBackground);
+  background: var(--vscode-menu-background);
+  color: inherit;
+  cursor: pointer;
+}
+
+.overview-units button:hover {
+  color: var(--vscode-menu-selectionForeground);
+  background-color: var(--vscode-menu-selectionBackground);
+}

@@ -44,26 +44,29 @@ describe("The Editor", () => {
       .should("exist");
   });
 
-  it("loads example correctly on mobile", () => {
+  it("loads unit correctly on mobile", () => {
     cy.viewport(550, 750);
     cy.visit("/");
     cy.get(".dropdown>.nav-link>.fa-bars").click();
-    cy.contains(".dropdown .dropdown", "Examples").click();
+    cy.contains(".dropdown .dropdown", "Units").click();
+    cy.contains(".dropdown .dropdown", "Preliminaries").click();
     cy.contains(".nav-link", "Basic").click();
-    cy.containsAll([
-      "#eval 1 + 2",
-      "def hello := \"world\"",
-    ]).should("exist");
+    cy.containsAll(["#eval 1 + 2", 'def hello := "world"']).should("exist");
   });
 
-  it("loads example correctly on desktop", () => {
+  it("loads unit correctly on desktop", () => {
     cy.visit("/");
-    cy.contains(".nav-link", "Examples").click();
+    cy.contains(".nav-link", "Units").click();
+    cy.contains(".dropdown .dropdown", "Preliminaries").click();
     cy.contains(".nav-link", "Basic").click();
-    cy.containsAll([
-      "#eval 1 + 2",
-      "def hello := \"world\"",
-    ]).should("exist");
+    cy.containsAll(["#eval 1 + 2", 'def hello := "world"']).should("exist");
+  });
+
+  it("opens the LeanLangur overview", () => {
+    cy.visit("/#route=overview");
+    cy.contains("h1", "LeanLangur Overview").should("exist");
+    cy.contains("text", "SimpleTerms").click();
+    cy.contains("div.view-lines", "Simple Terms").should("exist");
   });
 
   it("displays correct infoview state", () => {

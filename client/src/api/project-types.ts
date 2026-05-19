@@ -1,11 +1,15 @@
-/** An example can be any Lean file which belongs to the project.
+/** A unit can be any Lean file or project route which belongs to the project.
  * The editor just reads the file content, but it makes sense for maintainability
  * that you ensure the Lean project actually builds the file. */
-export type LeanWebExample = {
-  /** File to load; relative path in `lean4web/Projects/<project_folder>/` */
-  file: string
-  /** Display name used in the `Examples` menu */
+export type LeanWebUnit = {
+  /** Display name used in the `Units` menu */
   name: string
+  /** File to load; relative path in `lean4web/Projects/<project_folder>/` */
+  file?: string
+  /** Internal app route to open instead of loading a file */
+  route?: string
+  /** Nested units shown as submenus */
+  units?: LeanWebUnit[]
 }
 
 /** Configuration from a project's `leanweb-config.json` file. */
@@ -16,8 +20,10 @@ export type LeanWebProjectConfig = {
   hidden: boolean
   /** The default project. There must be exactly one project marked as default */
   default: boolean
-  /** A list of examples which are added under the menu `Examples` */
-  examples: LeanWebExample[]
+  /** A nested list of units which are added under the menu `Units` */
+  units?: LeanWebUnit[]
+  /** Legacy flat examples list, shown as units if `units` is absent */
+  examples?: LeanWebUnit[]
 }
 
 /* A project */

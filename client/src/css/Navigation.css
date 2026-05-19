@@ -46,7 +46,8 @@ nav .dropdown-content {
 /* Second level dropdowns */
 nav .dropdown-content .dropdown .dropdown-content {
   z-index: 2;
-  left: 0;
+  top: 0;
+  right: 100%;
 }
 /* Second level dropdowns */
 nav .dropdown-content .dropdown > .nav-link {
