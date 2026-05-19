@@ -69,9 +69,9 @@ export const importedCodeAtom = atom((get) => {
 export const setImportUrlAndProjectAtom = atom(
   null,
   (get, set, val: { url: string; project?: string }) => {
-    set(importUrlAtom, val.url) // TODO: should there be some decoding of the input?
     if (val.project) {
       set(currentProjectAtom, val.project)
     }
+    set(importUrlAtom, val.url) // TODO: should there be some decoding of the input?
   },
 )

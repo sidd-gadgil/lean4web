@@ -65,8 +65,12 @@ describe("The Editor", () => {
   it("opens the LeanLangur overview", () => {
     cy.visit("/#route=overview");
     cy.contains("h1", "LeanLangur Overview").should("exist");
-    cy.contains("text", "SimpleTerms").click();
-    cy.contains("div.view-lines", "Simple Terms").should("exist");
+    cy.contains("text", "ListOps").click();
+    cy.location("hash").should(
+      "equal",
+      "#url=http%3A%2F%2Flocalhost%3A8080%2Fapi%2Fexample%2FLeanLangur%2FLeanLangur%2FListOps.lean",
+    );
+    cy.contains("div.view-lines", "List operations").should("exist");
   });
 
   it("displays correct infoview state", () => {
