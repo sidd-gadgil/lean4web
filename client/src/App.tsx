@@ -71,7 +71,7 @@ function App() {
 
   // Update LeanMonaco options when preferences are loaded or change
   useEffect(() => {
-    if (!project) return
+    if (!project || route === 'overview') return
 
     console.log('[Lean4web] Update lean4monaco options')
 
@@ -107,11 +107,11 @@ function App() {
       },
     }
     setOptions(_options)
-  }, [editorRef, project, settings])
+  }, [editorRef, project, route, settings])
 
   // Setting up the editor and infoview
   useEffect(() => {
-    if (!project) return
+    if (!project || route === 'overview' || !editorRef.current || !infoviewRef.current) return
     console.debug('[Lean4web] Restarting editor')
     var _leanMonaco = new LeanMonaco()
     var leanMonacoEditor = new LeanMonacoEditor()
@@ -210,7 +210,7 @@ function App() {
       leanMonacoEditor.dispose()
       _leanMonaco.dispose()
     }
-  }, [infoviewRef, editorRef, options, project, settings])
+  }, [infoviewRef, editorRef, options, project, route, settings])
 
   /** Set editor content to the code loaded from the URL */
   useEffect(() => {
